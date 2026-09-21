@@ -10,6 +10,22 @@ package uart_uvm_pkg;
     rand bit parity_odd;
     bit [DATA_BITS-1:0] rx_data;
     bit parity_error, frame_error;
+    constraint c_parity_mode {
+      !parity_en -> !parity_odd;
+      parity_en dist {
+        0 := 4,
+        1 := 6
+      };
+    }
+    constraint c_payload {
+      data dist {
+        8'h00 := 1,
+        8'hff := 1,
+        8'h55 := 1,
+        8'haa := 1,
+        [8'h01 : 8'hfe] := 12
+      };
+    }
     `uvm_object_utils_begin(uart_item)
       `uvm_field_int(data, UVM_HEX)
       `uvm_field_int(parity_en, UVM_DEFAULT)
