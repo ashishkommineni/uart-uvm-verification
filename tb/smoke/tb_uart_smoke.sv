@@ -25,6 +25,16 @@ module tb_uart_smoke;
   ) dut (
       .*
   );
+  uart_sva sva (
+      .clk,
+      .rst_n,
+      .tx_start,
+      .tx_busy,
+      .tx_done,
+      .tx_serial,
+      .rx_valid,
+      .rx_serial
+  );
   task automatic send_check(input logic [7:0] data, input logic pen, input logic podd);
     while (tx_busy) @(posedge clk);
     @(negedge clk);
