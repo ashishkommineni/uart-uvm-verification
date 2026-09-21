@@ -17,6 +17,12 @@ module uart_sva (
   assert property (tx_done |=> !tx_done);
   ap_tx_known :
   assert property (!$isunknown(tx_serial));
+  ap_rx_known :
+  assert property (!$isunknown(rx_serial));
+  ap_tx_idle_high :
+  assert property (!tx_busy |-> tx_serial);
+  ap_done_returns_idle :
+  assert property (tx_done |-> !tx_busy && tx_serial);
   ap_rx_valid_single_cycle :
   assert property (rx_valid |=> !rx_valid);
   cp_back_to_back :
