@@ -12,7 +12,7 @@ lint:
 	$(VERILATOR) --lint-only --sv --timing -Wall -Wno-fatal rtl/uart.sv
 smoke:
 	rm -rf build/obj_uart;mkdir -p build
-	$(VERILATOR) --binary --sv --timing --assert -Wall -Wno-fatal --top-module tb_uart_smoke --Mdir build/obj_uart rtl/uart.sv tb/smoke/tb_uart_smoke.sv
-	./build/obj_uart/Vtb_uart_smoke|tee results_smoke.log
+	$(VERILATOR) --binary --sv --timing --assert -Wall -Wno-fatal -Wno-SYNCASYNCNET --top-module tb_uart_smoke --Mdir build/obj_uart rtl/uart.sv tb/assertions/uart_sva.sv tb/smoke/tb_uart_smoke.sv
+	bash -o pipefail -c './build/obj_uart/Vtb_uart_smoke | tee results_smoke.log'
 clean:
 	rm -rf build xcelium.d INCA_libs waves.shm results *.log *.key

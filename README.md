@@ -12,7 +12,7 @@ The transmitter serializes LSB first. The receiver validates the start bit at it
 
 ## Verification architecture
 
-The UVM driver launches parallel TX requests. The physical `tx_serial` output loops back into `rx_serial`; the monitor pairs the accepted request with `rx_valid`, and the scoreboard checks payload plus parity/framing status. Coverage crosses data patterns with parity mode.
+The UVM driver launches sequenced TX requests. The physical `tx_serial` output loops back into `rx_serial`; the monitor pairs each accepted request with `rx_valid`, and the scoreboard checks payload plus parity/framing status. Coverage crosses data patterns with parity mode.
 
 ## Run
 
@@ -23,7 +23,7 @@ make lint      # Verilator lint
 make smoke     # executable serial loopback
 ```
 
-Passing portable execution prints:
+Passing portable execution includes live SVA and prints:
 
 ```text
 UART_SMOKE_PASS checks=5
